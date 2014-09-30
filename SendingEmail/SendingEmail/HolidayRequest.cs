@@ -17,6 +17,7 @@ namespace SendingEmail
             EmployeeName = employeeName;
             EmployeeEmail = employeeEmail;
             ManagerEmail = managerEmail;
+            HolidayPeriod = new HolidayPeriod();
             HolidayPeriod.From = from;
             HolidayPeriod.To = to;
 
