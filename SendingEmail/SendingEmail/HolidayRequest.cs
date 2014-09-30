@@ -4,14 +4,13 @@ namespace SendingEmail
 {
     public class HolidayRequest
     {
-        // These properties can and *should* be private
-        public string EmployeeName { get; set; }
-        public string EmployeeEmail { get; set; }
-        public string ManagerEmail { get; set; }
+        private string EmployeeName { get; set; }
+        private string EmployeeEmail { get; set; }
+        private string ManagerEmail { get; set; }
 
-        public HolidayPeriod HolidayPeriod { get; set; }
+        private HolidayPeriod HolidayPeriod { get; set; }
 
-        public HolidayRequestStatus Status { get; set; }
+        private HolidayRequestStatus Status { get; set; }
 
         public HolidayRequest(string employeeName, string employeeEmail, string managerEmail, DateTime from, DateTime to)
         {
@@ -21,12 +20,7 @@ namespace SendingEmail
             HolidayPeriod.From = from;
             HolidayPeriod.To = to;
 
-            // What is the status of a created but not submitted request?
-        }
-
-        // This is unused.
-        public HolidayRequest()
-        {
+            Status = HolidayRequestStatus.NotSubmitted;
         }
 
         public void SubmitForApproval()
@@ -40,8 +34,8 @@ namespace SendingEmail
             string subject = "Holliday request";
             string body = string.Format("I want to take a vacation in the period from {0} to {1}", HolidayPeriod.From, HolidayPeriod.To);
 
-            var email = new EmailServer();
-            email.SendEmail(EmployeeEmail, ManagerEmail, subject, body);
+            var email = new Email();
+            email.Send(EmployeeEmail, ManagerEmail, subject, body);
         }
 
         public void Approve()
@@ -54,18 +48,16 @@ namespace SendingEmail
         {
             string subject = "OK";
             string body = string.Format("It is ok in the period from {0} to {1}", HolidayPeriod.From, HolidayPeriod.To );
+            string HREmail = "hr@iquest.com";
 
-            // Name: email = new EmailServer?
-            // I would call the class Email and the method Send()
-            var email = new EmailServer();
-            // This should be from the manager to the HR
-            email.SendEmail(EmployeeEmail, ManagerEmail, subject, body);
+            var email = new Email();
+            email.Send(ManagerEmail, HREmail, subject, body);
         }
 
         public void Reject()
         {
             Status = HolidayRequestStatus.Rejected;
-            SendEmailBackToEmployee();            
+            SendEmailBackToEmployee();
         }
 
         private void SendEmailBackToEmployee()
@@ -73,8 +65,8 @@ namespace SendingEmail
             string subject = "NOT OK";
             string body = string.Format("It is not ok in the period from {0} to {1}", HolidayPeriod.From, HolidayPeriod.To);
 
-            var email = new EmailServer();
-            email.SendEmail(ManagerEmail, EmployeeEmail, subject, body);
+            var email = new Email();
+            email.Send(ManagerEmail, EmployeeEmail, subject, body);
         }
     }
 }

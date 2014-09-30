@@ -3,9 +3,9 @@ using System.Net.Mail;
 
 namespace SendingEmail
 {
-    public class EmailServer
+    public class Email
     {
-        public void SendEmail(string from, string to, string subject, string body)
+        public void Send(string from, string to, string subject, string body)
         {
             var fromAddress = new MailAddress(from);
             var toAddress = new MailAddress(to);
