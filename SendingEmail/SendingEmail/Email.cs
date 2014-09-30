@@ -20,11 +20,11 @@ namespace SendingEmail
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential()
             };
-            using (var message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = subject,
-                Body = body
-            })
+            var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                };
             {
                 smtp.Send(message);
             }
