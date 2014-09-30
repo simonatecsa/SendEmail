@@ -4,6 +4,7 @@ namespace SendingEmail
 {
     public class HolidayRequest
     {
+        // These properties can and *should* be private
         public string EmployeeName { get; set; }
         public string EmployeeEmail { get; set; }
         public string ManagerEmail { get; set; }
@@ -19,7 +20,11 @@ namespace SendingEmail
             ManagerEmail = managerEmail;
             HolidayPeriod.From = from;
             HolidayPeriod.To = to;
+
+            // What is the status of a created but not submitted request?
         }
+
+        // This is unused.
         public HolidayRequest()
         {
         }
@@ -50,7 +55,10 @@ namespace SendingEmail
             string subject = "OK";
             string body = string.Format("It is ok in the period from {0} to {1}", HolidayPeriod.From, HolidayPeriod.To );
 
+            // Name: email = new EmailServer?
+            // I would call the class Email and the method Send()
             var email = new EmailServer();
+            // This should be from the manager to the HR
             email.SendEmail(EmployeeEmail, ManagerEmail, subject, body);
         }
 
